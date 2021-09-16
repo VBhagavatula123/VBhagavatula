@@ -1,0 +1,47 @@
+#include <iostream>
+
+using namespace std;
+
+int main() //function
+{
+  char playAgain = 'Y'; //intialize it to Y so it actually runs
+  while (playAgain == 'Y' || playAgain == 'y') {// which it is since it is set to 'Y'
+    
+  srand(time(NULL));
+
+  int randomNumber = rand() % 100;
+  int guess;
+  int guessCounter = 0;
+
+  while (randomNumber != guess) {
+
+    guessCounter++;
+
+    cout << " Welcome to Guessing Game, Enter a guess: ";
+    cin >> guess;
+    if(guess > randomNumber) cout << "too high :|  TRY AGAIN!!!" << endl;
+			
+			
+    if(guess < randomNumber) cout << "too low :| TRY AGAIN!!!" << endl;
+
+
+
+  }
+
+  guessCounter++;
+  
+  cout << "you won :) and you took " << guessCounter << " guesses! Would you like to play again? Y or y for yes, N, n or any other key for no";
+  cin >> playAgain;
+
+  }
+
+  cout << "Thanks for playing Guessing Game";
+
+
+
+
+
+
+  return 0;
+}
+56
