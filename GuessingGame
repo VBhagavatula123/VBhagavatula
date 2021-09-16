@@ -2,40 +2,40 @@
 
 using namespace std;
 
-int main() //function
+int main()                                                                              //function
 {
-  char playAgain = 'Y'; //intialize it to Y so it actually runs
-  while (playAgain == 'Y' || playAgain == 'y') {// which it is since it is set to 'Y'
+  char playAgain = 'Y';                                                                //intialize it to Y so it actually runs
+  while (playAgain == 'Y' || playAgain == 'y') {                                        // which it is since it is set to 'Y'
     
-  srand(time(NULL)); //sets random seed
+  srand(time(NULL));                                                                    //sets random seed
 
-  int randomNumber = rand() % 100; // random number out of 100
-  int guess; // guess variable will be an input
-  int guessCounter = 0; // intialize to 0
+  int randomNumber = rand() % 100;                                                      // random number out of 100
+  int guess;                                                                           // guess variable will be an input soon
+  int guessCounter = 0;                                                                 // intialize to 0
 
-  while (randomNumber != guess) {// if it doesn't equal the guess you put in which it almost certainlty won't.
+  while (randomNumber != guess) {                                                     // if it doesn't equal the guess you put in which it almost certainlty won't.
 
     guessCounter++; everytime the program finds itself inside this while loop that's one guess.
 
-    cout << " Welcome to Guessing Game, Enter a guess: "; // intro message.
+    cout << " Welcome to Guessing Game, Enter a guess: ";                              // intro message.
     cin >> guess; //guess is now the input
-    if(guess > randomNumber) cout << "too high :|  TRY AGAIN!!!" << endl; //try again if it's too high
+    if(guess > randomNumber) cout << "too high :|  TRY AGAIN!!!" << endl;              //try again if it's too high
 			
 			
-    if(guess < randomNumber) cout << "too low :| TRY AGAIN!!!" << endl; //and too low
+    if(guess < randomNumber) cout << "too low :| TRY AGAIN!!!" << endl;               //and too low
 
 
 
   }
 
-  guessCounter++; // when it gets out AKA you got it right that's one last guess added
+  guessCounter++;                                      // when it gets out AKA you got it right that's one last guess added
   
-  cout << "you won :) and you took " << guessCounter << " guesses! Would you like to play again? Y or y for yes, N, n or any other key for no"; //end message.
-  cin >> playAgain; // will now take input for the playAgain variable. It was already set to Y so that's why it started without any hiccups.
+  cout << "you won :) and you took " << guessCounter << " guesses! Would you like to play again? Y or y for yes, N, n or any other key for no";             //end message.
+  cin >> playAgain;                                    // will now take input for the playAgain variable. It was already set to Y so that's why it started without any hiccups.
 
   }
 
-  cout << "Thanks for playing Guessing Game"; // if you don't enter Y or y then that's it.
+  cout << "Thanks for playing Guessing Game";          // if you don't enter Y or y then that's it.
 
 
 
