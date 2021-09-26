@@ -28,7 +28,7 @@ int main()                                                                      
 
   }
 
-  guessCounter++;                                      // when it gets out AKA you got it right that's one last guess added
+  
   
   cout << "you won :) and you took " << guessCounter << " guesses! Would you like to play again? Y or y for yes, N, n or any other key for no";             //end message.
   cin >> playAgain;                                    // will now take input for the playAgain variable. It was already set to Y so that's why it started without any hiccups.
