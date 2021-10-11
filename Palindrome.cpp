@@ -164,7 +164,7 @@ int main()
 
 
   int count = 0;
-  for (int i = 0; i < strlen(array1); i++) { // all building our 2nd array that will be the reverse of our user's input
+  for (int i = 0; i <= strlen(array1); i++) { // all building our 2nd array that will be the reverse of our user's input
 
     array2[count] = array1[strlen(array1)-i-1];// -1 accounts for null terminating
     count++;
@@ -184,7 +184,7 @@ int main()
   cout << endl;
   int count1 = 0; // counter variable
 
-  for (int i = 0; i < strlen(array1); i++) {
+  for (int i = 0; i <= strlen(array1); i++) {
 
 
     if(array2[count1] != array1[i]) {// -1 to account for the null character
@@ -197,7 +197,7 @@ int main()
 
   }
 
-  if (count1 == strlen(array1)) {// if the count number at the end was equal to the array length, which was how many times the for loop ran, it's a palindrome
+  if (count1 == strlen(array1)+1) {// if the count number at the end was equal to the array length, which was how many times the for loop ran, it's a palindrome
     cout << "is a palindrome" << endl;
 
   }
