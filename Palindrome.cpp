@@ -8,12 +8,12 @@ int main()
 
   char inputString[81];// acount for null terminating
   char array1[81]; //original input and add 1 to account for null terminating
-  char array2[81]; //the one that is going to be half of it so we can start comparing later, account for null terminating
+  char array2[81]; //the one that is going to be the reverse so we can start comparing later, account for null terminating
   char goodChars[37] = {'a','b','c','d','e', 'f','g', 'h', 'i','j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '\0'}; // the only characters that can be used, account for null terminating
 
   cout << "please enter an input of up to 80 characters" << endl;
   cout << endl;
-  cin.get(inputString, 80); //getting the users input
+  cin.get(inputString, 81); //getting the users input
   cin.get();
 
 
@@ -145,13 +145,14 @@ int main()
 
 
                if(inputString[i] == goodChars[j]){// if it is equal to the good chars then it is good to go
+                
+                 if(goodChar[j] != goodChars[strlen(goodChars)]) {
 
+                 array1[counter] = goodChars[j];// since it is, you now put that into array1
 
-          array1[counter] = goodChars[j];// since it is, you now put that into array1
+                 counter++;//add 1 to the counter variable so it is current
 
-          counter++;//add 1 to the counter variable so it is current
-
-
+                 }
 
           }
       }
