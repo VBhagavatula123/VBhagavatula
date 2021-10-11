@@ -11,7 +11,7 @@ int main()
   char array2[81]; //the one that is going to be the reverse so we can start comparing later, account for null terminating
   char goodChars[37] = {'a','b','c','d','e', 'f','g', 'h', 'i','j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '\0'}; // the only characters that can be used, account for null terminating
 
-  cout << "please enter an input of up to 80 characters" << endl;
+  cout << "please enter an input of up to 80 characters, putting in more than 80 characters will either not work or will give you an inaccurate result" << endl;
   cout << endl;
   cin.get(inputString, 81); //getting the users input
   cin.get();
