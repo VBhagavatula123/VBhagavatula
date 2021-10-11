@@ -193,7 +193,7 @@ int main()
       break;// if it doesn't equal once, just break the loop it isn't going to be a palindrome anyway.
     }
 
-    count1++;// each time it doesn't equal increase the count by one
+    count1++;// each time it does equal increase the count by one
 
   }
 
