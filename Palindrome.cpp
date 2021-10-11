@@ -19,7 +19,7 @@ int main()
 
   int counter = 0; // int using for nested loop
 
-  for (int i = 0; i < strlen(inputString); i++) {//changing all caps to lower-case
+  for (int i = 0; i <= strlen(inputString); i++) {//changing all caps to lower-case
 
              if (inputString[i] == 'A') {
         inputString[i] = 'a';
@@ -140,19 +140,18 @@ int main()
 
 
 
-             for (int j = 0; j < strlen(goodChars); j++) {//for each char of input string check if it is equal to a char from the goodChar string to move forward
+             for (int j = 0; j <= strlen(goodChars); j++) {//for each char of input string check if it is equal to a char from the goodChar string to move forward
 
 
 
                if(inputString[i] == goodChars[j]){// if it is equal to the good chars then it is good to go
                 
-                 if(goodChar[j] != goodChars[strlen(goodChars)]) {
 
                  array1[counter] = goodChars[j];// since it is, you now put that into array1
 
                  counter++;//add 1 to the counter variable so it is current
 
-                 }
+               
 
           }
       }
