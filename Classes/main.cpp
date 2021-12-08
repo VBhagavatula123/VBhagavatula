@@ -1,3 +1,7 @@
+/* This is the main file, which includes all of the headerfiles, and the Vector of DigMedia(the parent class) pointers, containing our data.
+the Info  gets passed in from the Parent and Sub-Classes to our vector using our commands ADD, LIST, DELETE, PRINT and SEARCH.
+much of this file has a similar framework and style to the previous project, StudentList*/
+
 
 #include <iostream>
 #include <vector>
@@ -225,7 +229,7 @@ void SEARCH(vector<DigMedia*> &digMediaVect) {
 
 void PRINT(DigMedia* digMediaPtr) {
    
-    //Print information about the specific media by getting the mediaType
+    //Print information about the specific media by getting the mediaType, which has been set to a number 1, 2 or 3(in the constructor)
     //Depending on mediaType print corresponding fields
     if(digMediaPtr->getMediaType() == 1)
     {
