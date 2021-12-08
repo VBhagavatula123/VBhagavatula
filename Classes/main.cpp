@@ -1,4 +1,6 @@
-/* This is the main file, which includes all of the headerfiles, and the Vector of DigMedia(the parent class) pointers, containing our data.
+/* 
+Vivek, Classes, December 8th.
+This is the main file, which includes all of the headerfiles, and the Vector of DigMedia(the parent class) pointers, containing our data.
 the Info  gets passed in from the Parent and Sub-Classes to our vector using our commands ADD, LIST, DELETE, PRINT and SEARCH.
 much of this file has a similar framework and style to the previous project, StudentList*/
 
