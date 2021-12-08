@@ -1,3 +1,6 @@
+/*just the functionality of the movies class*/
+
+
 #include <iostream>
 #include <cstring>
 #include "Movies.h"
