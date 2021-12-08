@@ -1,3 +1,4 @@
+/*just the functionality of the music class*/
 #include <iostream>
 #include <cstring>
 
