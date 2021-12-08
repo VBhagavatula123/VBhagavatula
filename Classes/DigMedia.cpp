@@ -1,3 +1,7 @@
+/* this files serves as the functionality of the DigMedia class. There will be a constructor and destructor method.
+this two things can serve to instantiate and initialize(how ever the int values will be toyed with) things after they have been dynamically allocated.
+the destructor is able to deallocate the dynamic memory when DELETE is called in  the main file. This is the structure used in classes*/
+
 #include <iostream>
 #include <cstring>
 
