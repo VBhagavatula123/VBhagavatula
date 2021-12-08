@@ -1,3 +1,5 @@
+/*just the functionality of the video games class*/
+
 #include <iostream>
 #include <cstring>
 #include "VideoGames.h"
