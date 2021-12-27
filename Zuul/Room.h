@@ -1,11 +1,25 @@
+#pragma once
 #include <iostream>
-#include <vector>
 #include <cstring>
-#include "Room.h"
-
 using namespace std;
 
-int main()
-{
 
-}
+struct item{
+    char name[];
+    char color[];
+};
+
+
+
+class Room {
+  public:
+    Room();
+    ~Room();
+    
+    
+    
+  protected:
+    int roomNumber;
+    char roomDescription[];
+    vector<item*>itemptr;
+};
