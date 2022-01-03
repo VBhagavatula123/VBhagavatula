@@ -2,27 +2,76 @@
 #include <vector>
 #include <cstring>
 #include "Room.h"
-
+#include std::map<Key, T> ;
 
 using namespace std;
 
-struct items{
-  char Weapon[10];
-    int money;
-    int roomAge;
-    char name[10];
-    int song;
+struct Item{
+	char name[];
+	char color[];
+}
+
 };
 
 int main()
 {
 vector<Room*> RoomVectPtr;
+vector<Item*> PlayerInventoryVectPtr;
+
+
+cout << "you are currently in the 1-20 lab at sunset, you have 3 possible exits, N, S and E" << endl;
+ Room* room1 = new Room();
+        room1->setName("Room1");
+        room1->setDesc("You are in Room1");
+        vector<Item*> Room1ItemsVect;
+        items* newItem = new Item();
+        newItem->name = "candy";
+        newItem->color = "silver"
+         //Add the newItem struct pointer to our student vector, studVect
+        Room1ItemsVect.push_back(newItem);
+        items* newItem = new Item();
+        newItem->name = "mop";
+        newItem->color = "gold"
+         //Add the newItem struct pointer to our student vector, studVect
+        Room1ItemsVect.push_back(newItem);
+        
+        room1->setItems();
+        //Set the exits for room 1 in - 
+        //Eg: Room1 has East and South exits. Add them to a hashmap and pass to setExits method 
+        map<char, int> exitmap1;
+        exitmap1['E'] = 2;
+        exitmap1['S'] = 6;
+        room1->setExits(exitmap);
+        
+        RoomVectPtr.push_back(room1);
+ RoomVectPtr(1) = new Room();
+ RoomVectPtr() = new Room();
+ RoomVectPtr4 = new Room();
+ RoomVectPtr5 = new Room();
+ RoomVectPtr6 = new Room();
+ RoomVectPtr7 = new Room();
+ RoomVectPtr3 = new Room();
+ RoomVectPtr8 = new Room();
+ RoomVectPtr9 = new Room();
+ RoomVectPtr10 = new Room();
+ RoomVectPtr12 = new Room();
+ RoomVectPtr13 = new Room();
+ RoomVectPtr14 = new Room();
+ RoomVectPtr15 = new Room();
  
  
- Room* nextRoom = new Room();
  
  
- if(roomNumber == 1) {
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ /*if(roomNumber == 1) {
     cout << "You have entered the Bathroom" << endl;
     cout << "Exits: WEST"
   }
@@ -81,7 +130,7 @@ vector<Room*> RoomVectPtr;
   if(roomNumber == 15) {
     cout << "You have entered the Snacks Closet" << endl;
     cout << "Exits: SOUTH"
-  }
+  }*/
 
 
 }
