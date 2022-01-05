@@ -12,23 +12,24 @@ struct Item {
 
 class Room {
   public:
-    Room();
+    Room(int roomNum);
     ~Room();
     
     void setItems(vector<Item*> itemVect);
     void setExits(map<char, int> ExMap);
     
-    void setNumber(int roomNumber);
     void setName(char* name);
     void setDesc(char* desc);
     
+    char* getName();
+    char* getDesc();
     vector<Item*> getItems();
     map<char, int> getExits();
     
     int getExitRoomNumber(char exitName);
     
-    /*Item* pickupItem();
-    void dropItem(Item*);*/
+    void pickupItem(char* itemname, vector<Item*> &PlayerInventoryVectPtr);
+    void addItem(char* itemname, char* itemcolor);
     
   
   protected:
