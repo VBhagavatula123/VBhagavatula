@@ -6,73 +6,59 @@
 
 using namespace std;
 
+//void AddItem(vector<Item*> &itemVect, char* name, char* color);
+
 int main()
 {
     vector<Room*> RoomVectPtr;
     vector<Item*> PlayerInventoryVectPtr;
+    char roomname[10];
+    char roomdesc[80];
+   // char itemname[10];
+    //char itemcolor[10];
+    
+    char* book = (char*)"book";
+    char* candy = (char*)"candy";
+    char* mop = (char*)"mop";
+    char* cup = (char*)"cup";
+    char* ring = (char*)"ring";
+    
+    char* gold = (char*)"gold";
+    char* silver = (char*)"silver";
+    char* bronze = (char*)"bronze";
+    
+    Room* room1 = new Room(1);
+        strcpy(roomname, "Room1");
+        room1->setName(roomname);
+        
+        strcpy(roomdesc, "You are in Room1");
+        room1->setDesc(roomdesc);
 
-    Room* room1 = new Room();
-        room1->setNumber(1);
-        
-        char txt[50] = "Room1";
-        room1->setName(txt);
-        
-        strcpy(txt,"You are in Room1");
-        room1->setDesc(txt);
-        
-        vector<Item*> Room1ItemsVect;
-        Item* newItem = new Item();
-        strcpy(txt, "candy");
-        newItem->name = txt;
-        strcpy(txt, "silver");
-        newItem->color = txt;
-         //Add the newItem struct pointer to our student vector, studVect
-        Room1ItemsVect.push_back(newItem);
-        
-        newItem = new Item();
-        strcpy(txt, "mop");
-        newItem->name = txt;
-        strcpy(txt, "gold");
-        newItem->color = txt;
-         //Add the newItem struct pointer to our student vector, studVect
-        Room1ItemsVect.push_back(newItem);
-        
-        room1->setItems(Room1ItemsVect);
+         //Add the newItem struct pointer to our item vector inside room
+        room1->addItem(candy, silver);
+         //Add the newItem struct pointer to our student vector, studVect;
+        room1->addItem(book, gold);
+
         //Set the exits for room 1 in - 
         //Eg: Room1 has East and South exits. Add them to a hashmap and pass to setExits method 
         map<char, int> exitmap1;
         exitmap1['E'] = 2;
         exitmap1['S'] = 6;
-        
-        
-        
         room1->setExits(exitmap1);
         
         RoomVectPtr.push_back(room1);
         
-    Room* room2 = new Room();
-        room2->setNumber(2);
-        strcpy(txt, "Room2");
-        room2->setName(txt);
-        strcpy(txt, "You are in Room2");
-        room2->setDesc(txt);
-        vector<Item*> Room2ItemsVect;
-        newItem = new Item();
-        strcpy(txt, "candy");
-        newItem->name = txt;
-        strcpy(txt, "blue");
-        newItem->color = txt;
-         //Add the newItem struct pointer to our student vector, studVect
-        Room2ItemsVect.push_back(newItem);
-        newItem = new Item();
-        strcpy(txt, "mop");
-        newItem->name = txt;
-        strcpy(txt, "black");
-        newItem->color = txt;
-         //Add the newItem struct pointer to our student vector, studVect
-        Room2ItemsVect.push_back(newItem);
+    Room* room2 = new Room(2);
+        strcpy(roomname, "Room2");
+        room2->setName(roomname);
+        strcpy(roomdesc, "You are in Room2");
+        room2->setDesc(roomdesc);
         
-        room2->setItems(Room2ItemsVect);
+         //Add the newItem struct pointer to our student vector, studVect
+        room2->addItem(candy, gold);
+         //Add the newItem struct pointer to our student vector, studVect
+        room2->addItem(mop, silver);
+        
         //Set the exits for room 1 in - 
         //Eg: Room1 has East and South exits. Add them to a hashmap and pass to setExits method 
         map<char, int> exitmap2;
@@ -83,29 +69,17 @@ int main()
         
         RoomVectPtr.push_back(room2);
         
-    Room* room3 = new Room();
-        room3->setNumber(3);
-        strcpy(txt, "Room3");
-        room2->setName(txt);
-        strcpy(txt, "You are in Room2");
-        room3->setDesc(txt);
-        vector<Item*> Room3ItemsVect;
-        newItem = new Item();
-        strcpy(txt, "candy");
-        newItem->name = txt;
-        strcpy(txt, "silver");
-        newItem->color = txt;
-         //Add the newItem struct pointer to our item vector, Room3ItemsVect
-        Room3ItemsVect.push_back(newItem);
-        newItem = new Item();
-        strcpy(txt, "mop");
-        newItem->name = txt;
-        strcpy(txt, "gold");
-        newItem->color = txt;
-         //Add the newItem struct pointer to our item vector, Room3ItemsVect
-        Room3ItemsVect.push_back(newItem);
+    Room* room3 = new Room(3);
+        strcpy(roomname, "Room3");
+        room3->setName(roomname);
+        strcpy(roomdesc, "You are in Room3");
+        room3->setDesc(roomdesc);
         
-        room3->setItems(Room3ItemsVect);
+         //Add the newItem struct pointer to our item vector, Room3ItemsVect
+        room3->addItem(book, silver);
+         //Add the newItem struct pointer to our item vector, Room3ItemsVect
+        room3->addItem(mop, gold);
+        
         //Set the exits for room 1 in - 
         //Eg: Room1 has East and South exits. Add them to a hashmap and pass to setExits method 
         map<char, int> exitmap3;
@@ -114,7 +88,7 @@ int main()
         exitmap3['S'] = 8;
         room3->setExits(exitmap3);
         
-        RoomVectPtr.push_back(room3); 
+        RoomVectPtr.push_back(room3);
  
     /*Room* room4 = new Room();
         room4->setName("Room4");
@@ -429,97 +403,131 @@ int main()
         RoomVectPtr.push_back(room15);
      */   
     
-    int roomNumber = 1;
-    Room* currentRoom = RoomVectPtr[roomNumber-1];
-    map<char, int> exitmap = currentRoom->getExits();
+    /*for(int i =0; i < RoomVectPtr.size(); i++) {
+        Room* currentRoom = RoomVectPtr[i];
+        
+        cout << "You are currently in Room " << i+1 << " of TreasureHunt Games, there are exits leading to other rooms: " << endl;
+        cout << endl;
+        cout << "Room name: " << currentRoom->getName() << endl;
+        cout << "Room desc: " << currentRoom->getDesc() << endl << endl;
+        cout << "Following items are found in this room: " << endl;
+        
+        vector<Item*> itemVect = currentRoom->getItems();
+        for(int i =0; i < itemVect.size(); i++) {
+            cout << itemVect[i]->color << "::" << itemVect[i]->name << endl;
+        }
+        cout << endl;
+        cout << "This room has the following exits leading to other rooms: " << endl;
+        map<char, int> exitmap = currentRoom->getExits();
+        map<char, int>::iterator it = exitmap.begin();
+        while (it != exitmap.end())
+        {
+            // Accessing KEY from element pointed by it.
+            char letter = it->first;
+            // Accessing VALUE from element pointed by it.
+            int number = it->second;
+            cout << letter << " :: " << number << endl;
+            // Increment the Iterator to point to next entry
+            it++;
+        }
+        cout << endl;
+    }*/
     
-    cout << "you are currently in Room1 of ESCAPE ROOMS, you have 2 possible exits, S and E" << endl;
-   
-    map<char, int>::iterator it = exitmap1.begin();
-        
-        while (it != exitmap1.end())
-    {
-        // Accessing KEY from element pointed by it.
-        char letter = it->first;
-        // Accessing VALUE from element pointed by it.
-        int number = it->second;
-        cout << letter << " :: " << number << endl;
-        // Increment the Iterator to point to next entry
-        it++;
+    //Start prompting the user to play
+    char inputstr[7];
+    int curRoomNum = 1;
+    while(true){
+        //Prompt for input from user, PLAY or QUIT
+        cout << "What would you like to do?, Play or Quit ?" << endl;
+        cin >> inputstr;
+      
+        //If player types quit, break out of the loop
+        if (strcmp(inputstr, "Quit") == 0)
+            break;
+        else if(strcmp(inputstr, "Play") == 0)
+        {
+            while(true){
+                char inputPickupItemName[10];
+                char inputDropItemName[10];
+                char inputDropItemColor[10];
+                char inputExit;
+                
+                cout << "Alright!! Welcome to Escape Room" << curRoomNum << endl;
+                Room* currentRoom = RoomVectPtr[curRoomNum-1];
+                
+                cout << currentRoom->getDesc() << endl;
+                cout << "Following items are in this room: " << endl;
+                
+                vector<Item*> itemVect = currentRoom->getItems();
+                for(int i =0; i < itemVect.size(); i++) {
+                    cout << itemVect[i]->name << " - " << itemVect[i]->color << endl;
+                }
+                cout << "You win if you have at least 2 gold items and zero bronze items" << endl;
+                cout << "If you like to pickup any item, please type item name" << endl;
+                cin >> inputPickupItemName;
+                currentRoom->pickupItem(inputPickupItemName, PlayerInventoryVectPtr);
+                cout << endl;
+                
+                if(PlayerInventoryVectPtr.size() > 0) {
+                    cout << "If you like to drop items please type item name and color. Otherwise, type No" << endl;
+                    cin >> inputDropItemName;
+                    if(strcmp(inputDropItemName, "No") != 0){
+                        cin >> inputDropItemColor;
+                        currentRoom->addItem(inputDropItemName, inputDropItemColor);
+                        for(int i = 0; i<PlayerInventoryVectPtr.size(); i++){
+                            if(strcmp(PlayerInventoryVectPtr[i]->name, inputDropItemName) == 0){
+                                //delete the data
+                                delete PlayerInventoryVectPtr[i];
+                                //Remove the item from vector
+                                PlayerInventoryVectPtr.erase(PlayerInventoryVectPtr.begin()+i);
+                            }
+                        }
+                    }
+                }
+                
+                cout << "Here are items in your inventory currently.." << endl;
+                //Check player's inventory.
+                //If the player has two gold items and zero bronze items, player wins. 
+                //End the game. Otherwise continue.
+                int goldCounter = 0;
+                int bronzeCounter = 0;
+                for(int i =0; i < PlayerInventoryVectPtr.size(); i++) {
+                    cout << PlayerInventoryVectPtr[i]->name << " - " << PlayerInventoryVectPtr[i]->color << endl;
+                    if(strcmp(PlayerInventoryVectPtr[i]->color, "gold") == 0)
+                        goldCounter++;
+                    if(strcmp(PlayerInventoryVectPtr[i]->color, "bronze") == 0)
+                        bronzeCounter++;
+                }
+                
+                if(goldCounter == 2 && bronzeCounter == 0 )
+                {
+                    cout << "CONGRATULATIONS!!! YOU WON THE ZUUL !!!" << endl;
+                    break;
+                }
+                
+                cout << "Alright!!! This room has the following exits leading to other rooms: " << endl;
+                map<char, int> xmap = currentRoom->getExits();
+                map<char, int>::iterator it = xmap.begin();
+                while (it != xmap.end())
+                {
+                    // Accessing KEY from element pointed by it.
+                    char letter = it->first;
+                    // Accessing VALUE from element pointed by it.
+                    int number = it->second;
+                    cout << letter << " :: Room " << number << endl;
+                    // Increment the Iterator to point to next entry
+                    it++;
+                }
+                cout << endl;
+                
+                cout << "Type an exit letter and you go to corresponding room" << endl;
+                cin >> inputExit;
+                
+                curRoomNum = currentRoom->getExitRoomNumber(inputExit);
+                
+            }
+            
+              
+        }
     }
-    while(true)
-    {
-        
-        
-    }
- 
- 
- 
- 
- 
- 
- 
- 
-     /*if(roomNumber == 1) {
-        cout << "You have entered the Bathroom" << endl;
-        cout << "Exits: WEST"
-      }
-      if(roomNumber == 2) {
-        cout << "You have entered the Bedroom" << endl;
-        cout << "Exits: SOUTH"
-      }
-      if(roomNumber == 3) {
-        cout << "You have entered the Walking Closet" << endl;
-        cout << "Exits: SOUTH"
-      }
-      if(roomNumber == 4) {
-        cout << "You have entered the Dining Area" << endl;
-        cout << "Exits: SOUTH"
-      }
-      if(roomNumber == 5) {
-        cout << "You have entered the Kitchen" << endl;
-        cout << "Exits: NORTH"
-      }
-      if(roomNumber == 6) {
-        cout << "You have entered the Bonus Room" << endl;
-        cout << "Exits: EAST"
-      }
-      if(roomNumber == 7) {
-        cout << "You have entered the Gaming Room" << endl;
-        cout << "Exits: SOUTH"
-      }
-      if(roomNumber == 8) {
-        cout << "You have entered the Master Bedroom" << endl;
-        cout << "Exits: NORTH"
-      }
-      if(roomNumber == 9) {
-        cout << "You have entered the Kids Room" << endl;
-        cout << "Exits: SOUTH"
-      }
-      if(roomNumber == 10) {
-        cout << "You have entered the Garage" << endl;
-        cout << "Exits: SOUTH"
-      }
-      if(roomNumber == 11) {
-        cout << "You have entered the Front Yard" << endl;
-        cout << "Exits: WEST"
-      }
-      if(roomNumber == 12) {
-        cout << "You have entered the Back Yard" << endl;
-        cout << "Exits: SOUTH"
-      }
-      if(roomNumber == 13) {
-        cout << "You have entered the Theater Room" << endl;
-        cout << "Exits: SOUTH"
-      }
-      if(roomNumber == 14) {
-        cout << "You have entered the Accolades Room" << endl;
-        cout << "Exits: EAST"
-      }
-      if(roomNumber == 15) {
-        cout << "You have entered the Snacks Closet" << endl;
-        cout << "Exits: SOUTH"
-      }*/
-
-
 }
