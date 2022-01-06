@@ -2,7 +2,7 @@
 /*
 
 This is the header file for the room class. in the file, we declare the members of the class. The public members are needed for 
-main.cpp where as the protected ones are needed only for the functions in Room.cpp
+main.cpp where as the private ones are needed only for the functions in Room.cpp
 
 */
 
@@ -39,7 +39,7 @@ class Room {
     void pickupItem(char* itemname, char* itemcolor, vector<Item*> &PlayerInventoryVectPtr);
     void addItem(char* itemname, char* itemcolor);
   
-  protected:
+  private:
     int m_roomNumber;
     char* m_roomName;
     char* m_roomDescription;
