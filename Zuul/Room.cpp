@@ -1,3 +1,11 @@
+/*
+
+This is the CPP file. This file contains all of the functions for the class, including the constructor, destructor,
+as well as functions for Items, Exits, Descriptions and Room name and number
+
+*/
+
+
 #include <iostream>
 #include <cstring>
 #include "Room.h"
@@ -59,9 +67,9 @@ void Room::addItem(char* itemname, char* itemcolor){
     m_itemVector.push_back(newItem);
 }
 
-void Room::pickupItem(char* itemname, vector<Item*> &PlayerInventoryVectPtr) {
+void Room::pickupItem(char* itemname, char* itemcolor, vector<Item*> &PlayerInventoryVectPtr) {
     for(int i = 0; i<m_itemVector.size(); i++){
-        if(strcmp(m_itemVector[i]->name, itemname) == 0){
+        if(strcmp(m_itemVector[i]->name, itemname) == 0 && strcmp(m_itemVector[i]->color, itemcolor) == 0){
             Item* newItem = new Item();
             newItem->name = m_itemVector[i]->name;
             newItem->color = m_itemVector[i]->color;
@@ -73,3 +81,5 @@ void Room::pickupItem(char* itemname, vector<Item*> &PlayerInventoryVectPtr) {
         }
     }
 }
+
+
