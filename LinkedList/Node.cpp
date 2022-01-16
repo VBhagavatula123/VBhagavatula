@@ -1,28 +1,22 @@
+#pragma once
 #include <iostream>
-#include "Node.h"
+#include <cstring>
+#include "Student.h"
 
 using namespace std;
 
-Node::Node(Student* info){
-    next = NULL;
-    stdinfo = info;
-}
 
-Node::~Node(){
-    delete &stdinfo;
-    next = NULL;
-}
-
-Student* Node::getStudent() {
-   return stdinfo;
-}
-
-void Node::setNext(Node* newnext){
-    next = newnext;
-}
-
-Node* Node::getNext(){
-    return next;
-}
-
-
+class Node {
+    public:
+    Node();
+    ~Node(); 
+    void setNext(Node*);
+    Node(Student*);
+    Node* getNext();
+    Student* getStudent();
+    
+    
+    private:
+    Node* next;
+    Student* stdinfo;
+};
