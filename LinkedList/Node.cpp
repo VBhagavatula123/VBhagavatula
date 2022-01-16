@@ -3,22 +3,18 @@
 
 using namespace std;
 
-Node::Node(){
-    value = 0;
+Node::Node(Student* info){
     next = NULL;
+    stdinfo = info;
 }
 
 Node::~Node(){
-    delete &value;
+    delete &stdinfo;
     next = NULL;
 }
 
-void Node::setValue(int newvalue) {
-    value = newvalue;
-}
-
-int Node::getValue() {
-    return value;
+Student* Node::getStudent() {
+   return stdinfo;
 }
 
 void Node::setNext(Node* newnext){
