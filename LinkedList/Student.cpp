@@ -10,6 +10,7 @@ Student::Student(char* first, char* last, int ID, float GPA){
   s_GPA = GPA;
 }
 
+
 Student::~Student() {
     
 }
