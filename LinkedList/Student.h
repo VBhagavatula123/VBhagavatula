@@ -1,3 +1,4 @@
+//going to be used to copy in the data inputed from main and then eventually a pointer to an instantiation of it will passed into a Node contructor to add the info to each node.
 #pragma once
 #include <iostream>
 #include <cstring>
@@ -14,6 +15,6 @@ class Student {
     float s_GPA;
     void getStudentInfo();
     Student(char* first,char* last, int ID, float GPA);
-    ~Student();
+    ~Student(); 
 };
 
