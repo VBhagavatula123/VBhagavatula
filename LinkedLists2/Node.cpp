@@ -17,6 +17,10 @@ Student* Node::getStudent() {
    return stdinfo;
 }
 
+/*int getID() {
+    return stdinfo;
+}*/
+
 void Node::setNext(Node* newnext){
     next = newnext;
 }
