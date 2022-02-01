@@ -1,3 +1,5 @@
+// holds functionality for a student class. takes user input and stores it in student class object.
+
 #include <iostream>
 #include "Student.h"
 
