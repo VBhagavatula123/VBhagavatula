@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstring>
 
+//This file has allthe members for a student, all are made public to use in the node class.
 
 using namespace std;
 
