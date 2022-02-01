@@ -9,8 +9,8 @@ class Student
 {
 public:
 
-  char s_firstName[10];
-  char s_lastName[10];
+  char s_firstName[30];
+  char s_lastName[30];
   int s_id;
   float s_GPA;
   void getStudentInfo ();
