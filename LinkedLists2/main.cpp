@@ -69,6 +69,7 @@ main ()
       else if (strcmp (inputString, "average") == 0)
     	{
     	  Node *current = head;
+	      //setting the precision to round the gpa to 2 decimal places.
     	  cout.setf(ios::fixed,ios::floatfield);
         cout.setf(ios::showpoint);
         cout.precision(2);
