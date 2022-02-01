@@ -1,3 +1,5 @@
+//Name Vivek/ program linkedlist 2 student data base using recursion date: 2/1/2022
+
 #include <iostream>
 #include <stdlib.h>
 #include "Node.h"
@@ -7,6 +9,8 @@ void print (Node * next, Node * &head);
 void add (Node * &head, Node * previous, Node * current, int ID, Student* newStudent);
 void DEL (Node * &h, Node * previous, Node * current, int inputID);
 float AVG (Node * current);
+
+// main function holding all of the code for the interface
 
 int
 main ()
@@ -76,6 +80,8 @@ main ()
   return 0;
 }
 
+add method using recursion
+
 void
 add(Node * &head, Node * previous, Node * current, int ID, Student* newStudent)
 {
@@ -104,6 +110,7 @@ else {
   }
 }
 
+//print method using recursion
 
 void print (Node * next, Node * &head)
 {
@@ -126,6 +133,7 @@ void print (Node * next, Node * &head)
     }
 }
 
+// delete method using recursion
 
 void DEL (Node * &head, Node * previous, Node * current, int inputID)
 {
@@ -141,6 +149,7 @@ void DEL (Node * &head, Node * previous, Node * current, int inputID)
 
 }
 
+// divide the sum of the gpa's by the number of students: using 2 counters
 
 float AVG (Node * current)
 {
