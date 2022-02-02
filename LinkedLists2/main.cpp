@@ -1,3 +1,5 @@
+//what this program is is a linkedlist project where there is a student data base. commands are through recursion. Vivek Bhagavatula, 2/2/2022. project LinkedList 
+
 #include <iostream>
 #include <stdlib.h>
 #include "Node.h"
