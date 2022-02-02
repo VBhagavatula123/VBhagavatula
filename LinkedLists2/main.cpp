@@ -16,8 +16,8 @@ main ()
   while (true)
     {
       char inputString[10];
-      char first[10];
-      char last[10];
+      char first[30];
+      char last[30];
       int ID;
       float GPA;
 
@@ -30,9 +30,9 @@ main ()
 
       if (strcmp (inputString, "add") == 0)
 	{
-	  cin.get (first, 10);
+	  cin.get (first, 30);
 	  cin.get ();
-	  cin.get (last, 10);
+	  cin.get (last, 30);
 	  cin.get ();
 	  cin >> ID;
 	  cin >> GPA;
