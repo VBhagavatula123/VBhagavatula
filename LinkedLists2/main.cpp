@@ -1,5 +1,3 @@
-//Name Vivek/ program linkedlist 2 student data base using recursion date: 2/1/2022
-
 #include <iostream>
 #include <stdlib.h>
 #include "Node.h"
@@ -8,9 +6,7 @@ using namespace std;
 void print (Node * next, Node * &head);
 void add (Node * &head, Node * previous, Node * current, int ID, Student* newStudent);
 void DEL (Node * &h, Node * previous, Node * current, int inputID);
-float AVG (Node * current);
-
-// main function holding all of the code for the interface
+float AVG (Node * current, float counter, int counter2);
 
 int
 main ()
@@ -20,8 +16,8 @@ main ()
   while (true)
     {
       char inputString[10];
-      char first[30];
-      char last[30];
+      char first[10];
+      char last[10];
       int ID;
       float GPA;
 
@@ -34,9 +30,9 @@ main ()
 
       if (strcmp (inputString, "add") == 0)
 	{
-	  cin.get (first, 30);
+	  cin.get (first, 10);
 	  cin.get ();
-	  cin.get (last, 30);
+	  cin.get (last, 10);
 	  cin.get ();
 	  cin >> ID;
 	  cin >> GPA;
@@ -69,19 +65,18 @@ main ()
       else if (strcmp (inputString, "average") == 0)
     	{
     	  Node *current = head;
-	      //setting the precision to round the gpa to 2 decimal places.
+    	  float counter = 0;
+    	  int counter2 = 0;
     	  cout.setf(ios::fixed,ios::floatfield);
         cout.setf(ios::showpoint);
         cout.precision(2);
-    	  cout << "the average gpa of the students stored is: " << AVG (current)
+    	  cout << "the average gpa of the students stored is: " << AVG (current, counter, counter2)
     	    << endl;
     	}
     }
 
   return 0;
 }
-
-add method using recursion
 
 void
 add(Node * &head, Node * previous, Node * current, int ID, Student* newStudent)
@@ -111,7 +106,6 @@ else {
   }
 }
 
-//print method using recursion
 
 void print (Node * next, Node * &head)
 {
@@ -134,7 +128,6 @@ void print (Node * next, Node * &head)
     }
 }
 
-// delete method using recursion
 
 void DEL (Node * &head, Node * previous, Node * current, int inputID)
 {
@@ -150,18 +143,21 @@ void DEL (Node * &head, Node * previous, Node * current, int inputID)
 
 }
 
-// divide the sum of the gpa's by the number of students: using 2 counters
 
-float AVG (Node * current)
+float AVG (Node * current, float counter, int counter2)
 {
-  float counter = 0;
-  int counter2 = 0;
-  while (current != NULL)
+  if (current != NULL)
     {
-      counter += current->getStudent ()->s_GPA;
-      current = current->getNext ();
-      counter2++;
+        counter += current->getStudent ()->s_GPA;
+        counter2++;
+        AVG(current->getNext(), counter, counter2);
+        //return counter/counter2;
+    
     }
-
-  return counter/counter2;
+    else if (current == NULL) {
+        float result = counter/counter2;
+   	return result;
+    }
+    
+    
 }
