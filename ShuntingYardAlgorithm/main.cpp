@@ -6,15 +6,47 @@ struct Node {
     Node* next;
     char token;
 };
-struct Node2 {
-    Node* substree;
-};
-class BSTnode {
+class Node2 {
     public:
-    Node* right;
-    Node* left;
-    int a;
+    Node2* right;
+    Node2* left;
+    Node2* subtree;
+    Node2* next;
+    char token;
 };
+void push2(Node2 * &head, Node2* insert) {
+    if(head == NULL) {
+        head = insert;
+    }
+    else if(head != NULL) {
+        Node2* current = head;
+        while(current->next != NULL) {
+            current = current->next;
+        }
+        current->next = insert;
+        insert->next = NULL;
+    }
+}
+ Node2* pop2(Node2 * &head) {
+    int count = 0;
+    Node2* previous = head;
+    Node2* current = head;
+    while(current->next != NULL) {
+        previous = current;
+        current = current->next;
+        count++;
+    }
+    if(count == 0) {
+        Node2* c = head;
+        head = NULL;
+    }
+    
+    Node2* c = current;
+    previous->next = NULL;
+    cout << endl;
+    
+    return c;
+}
 //stack functions
 void print(Node * head) {
   while (head != NULL) {
@@ -23,7 +55,7 @@ void print(Node * head) {
   }
   cout << endl;
 }
-void push(Node * &head, int inputValue) {
+void push(Node * &head, char inputValue) {
 Node* insert = new Node();
 insert->token = inputValue;
 if(head == NULL) {
@@ -39,7 +71,7 @@ else if(head != NULL) {
     insert->next = NULL;
  }
 }
-int pop(Node * &head) {
+char pop(Node * &head) {
     int count = 0;
     Node* previous = head;
     Node* current = head;
@@ -68,6 +100,9 @@ char peek(Node * head) {
     char c = current->token;
     return c;
 }
+
+
+
 //queue functions
 int getLength(Node * head) {
     int counter = 0;
@@ -128,7 +163,6 @@ int prec(char c) {
         return -1;
     }
 }
-
 vector<char> INFIX() {
     Node* stack = NULL;
     int l;
@@ -141,30 +175,28 @@ vector<char> INFIX() {
     }
     
     for(int i = 0; i < l; i++) {
-        if (infix[i] >= '0' && infix[i] <= '9') {
-            output.push_back(infix[i]);
-        }
-
-        else if(infix[i] == '(') {
-            push(stack, infix[i]);
-        }
-        
-        else if(infix[i] == ')') {
-            while(peek(stack) != '(') {
-                output.push_back(pop(stack));
+            if (infix[i] >= '0' && infix[i] <= '9') {
+                output.push_back(infix[i]);
             }
-            discard.push_back(pop(stack));
-        }
-        
-        else {
-            while(stack != NULL && prec(infix[i]) <= prec(peek(stack))) {
-                output.push_back(pop(stack));
+    
+            else if(infix[i] == '(') {
+                push(stack, infix[i]);
             }
-            push(stack, infix[i]);
+            
+            else if(infix[i] == ')') {
+                while(peek(stack) != '(') {
+                    output.push_back(pop(stack));
+                }
+                discard.push_back(pop(stack));
+            }
+            
+            else {
+                while(stack != NULL && prec(infix[i]) <= prec(peek(stack))) {
+                    output.push_back(pop(stack));
+                }
+                push(stack, infix[i]);
+            }
         }
-        
-        }
-        
         while(stack != NULL) {
             output.push_back(pop(stack));
         }
@@ -176,29 +208,46 @@ vector<char> INFIX() {
     return output;
 
 }
-
-void buildTree() {
-    /*Node* stack2 = NULL;
-    for(int i = 0; i < l; i++) {
-        if(output[i] == '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9' || '0') {
-            push(stack2, output[i]);
+Node2* buildTree(vector<char> output) {
+    Node2* stack2 = NULL;
+    for(int i = 0; i < output.size(); i++) {
+        if(output[i] >= '0' && output[i] <= '9') {
+            Node2* Operand = new Node2();
+            Operand->token = output[i];
+            push2(stack2, Operand);
         }
-    }*/
-    
+        else if(output[i] == '+' || '-' || '^' || '*' || '/') {
+            Node2* Operator = new Node2();
+            Operator->token = output[i];
+            Operator->right = pop2(stack2);
+            Operator->left = pop2(stack2);
+            push2(stack2, Operator);
+        }
+    }
+
+    return stack2;
 }
 
-void infix() {
-    /*if (tree not empty)
-    postfix (tree left subtree)
-    postfix (tree right subtree)
-    print (tree token)*/
+void postfix(Node2* head) {
+    if(head == NULL) return;
+        postfix(head->left);
+        postfix(head->right);
+        cout << head->token;
+    }
+    
+
+void prefix(Node2* head) {
+    if(head == NULL) return;
+    cout << head->token;
+    prefix(head->left);
+    prefix(head->right);
+    
 }
-void prefix() {
-    
-    
-}
-void postfix() {
-    
+void infix(Node2* head) {
+    if(head == NULL) return;
+    infix(head->left);
+    cout << head->token;
+    infix(head->right);
 }
 
 
@@ -243,13 +292,26 @@ int main()
         print(queue);
     }
     if(strcmp(inputString, "INFIX") == 0) {
-        INFIX();
+       vector<char> OUTPUT = INFIX();
+       Node2* TREE = buildTree(OUTPUT);
+       char inputString[10];
+       cin >> inputString; 
+       if(strcmp(inputString, "infix") == 0) {
+           infix(TREE);
+           cout << endl;
+       }
+       else if(strcmp(inputString, "prefix") == 0) {
+           prefix(TREE);
+           cout << endl;
+       }
+       else if(strcmp(inputString, "postfix") == 0) {
+           postfix(TREE);
+           cout << endl;
+       }
     }
     if(strcmp(inputString, "length") == 0) {
         cout << getLength(stack);
     }
     
     }
-    
-
 }
