@@ -1,11 +1,18 @@
+//Shuntin Yard Algorithm by Vivek Bhagavatula 3/3/2022 
+//project takes in an infix input prints out postfix output using a stack
+//that output is loaded into a binary expression tree which can recursivley print prefix infix or posfix on demand.
+
 #include <iostream>
 #include <cstring>
 #include <vector>
 using namespace std;
+//struct for building stack for infix to postfix stack conversion.
 struct Node {
     Node* next;
     char token;
 };
+
+//node class for building a binary tree
 class Node2 {
     public:
     Node2* right;
@@ -14,6 +21,7 @@ class Node2 {
     Node2* next;
     char token;
 };
+//stack functions for building the binary expression tree. each Node has next pointers but halso have left and right child pointers for important flexibility
 void push2(Node2 * &head, Node2* insert) {
     if(head == NULL) {
         head = insert;
@@ -47,7 +55,7 @@ void push2(Node2 * &head, Node2* insert) {
     
     return c;
 }
-//stack functions
+//print functino that was used for testing.
 void print(Node * head) {
   while (head != NULL) {
     cout << head->token << " ";
@@ -55,6 +63,7 @@ void print(Node * head) {
   }
   cout << endl;
 }
+//push function for the infix to postfix stack conversion
 void push(Node * &head, char inputValue) {
 Node* insert = new Node();
 insert->token = inputValue;
@@ -71,6 +80,7 @@ else if(head != NULL) {
     insert->next = NULL;
  }
 }
+//pop function for infix to profix stack conversion
 char pop(Node * &head) {
     int count = 0;
     Node* previous = head;
@@ -92,6 +102,7 @@ char pop(Node * &head) {
     
     return c;
 }
+// peek function for infix to postfix stack conversion
 char peek(Node * head) {
     Node* current = head;
     while(current->next != NULL) {
@@ -101,9 +112,7 @@ char peek(Node * head) {
     return c;
 }
 
-
-
-//queue functions
+//queue functions that I don't use.
 int getLength(Node * head) {
     int counter = 0;
     Node*current  = head;
@@ -114,7 +123,8 @@ int getLength(Node * head) {
     
     return counter;
 }
-void enqueue(Node * &head, int inputValue) {
+// appends to the front;
+void enqueue(Node * &head, int inputValue, int sizeinput) {
     Node* insert = new Node();
     insert->token = inputValue;
     if(head == NULL) {
@@ -124,11 +134,11 @@ void enqueue(Node * &head, int inputValue) {
         insert->next = head;
         head = insert;
     }
-    if(getLength(head) >= 6) {
+    if(getLength(head) >= sizeinput) {
         Node* current = head;
         Node* previous = head;
         int counter = 0;
-        while (current->next != NULL && counter < 6) {
+        while (current->next != NULL && counter < sizeinput) {
             previous = current;
             current = current->next;
             counter++;
@@ -138,6 +148,8 @@ void enqueue(Node * &head, int inputValue) {
         delete current;
     }
 }
+
+// takes out from the back.
 void dequeue(Node * &head) {
     Node* current = head;
     Node* previous = head;
@@ -148,7 +160,7 @@ void dequeue(Node * &head) {
     previous->next = NULL;
     delete current;
 }
-//BST functions
+//precedent functions for easy comparison
 int prec(char c) {
     if(c == '^') {
         return 3;
@@ -163,13 +175,16 @@ int prec(char c) {
         return -1;
     }
 }
+//a conversion from Infix to Postfix using a stack.returns a vector for the output, which is then passed to the next function.
 vector<char> INFIX() {
     Node* stack = NULL;
     int l;
+    cout << "enter the length of your expression" << endl;
     cin >> l;
     char infix[l];
     vector<char> output;
     vector<char> discard;
+    cout << "enter your expression" << endl;
     for(int i = 0; i < l; i++) {
         cin >> infix[i];
     }
@@ -202,12 +217,14 @@ vector<char> INFIX() {
         }
     
     for(int i = 0; i < l; i++) {
-        cout << output[i] << " ";
+        cout << output[i];
     }
     
     return output;
 
 }
+
+// building a tree using a stack  of Nodes that have Data Nodes for tree building flexibility
 Node2* buildTree(vector<char> output) {
     Node2* stack2 = NULL;
     for(int i = 0; i < output.size(); i++) {
@@ -228,6 +245,7 @@ Node2* buildTree(vector<char> output) {
     return stack2;
 }
 
+// postfix recursive print
 void postfix(Node2* head) {
     if(head == NULL) return;
         postfix(head->left);
@@ -235,7 +253,7 @@ void postfix(Node2* head) {
         cout << head->token;
     }
     
-
+// prefix recursive print tree
 void prefix(Node2* head) {
     if(head == NULL) return;
     cout << head->token;
@@ -243,6 +261,8 @@ void prefix(Node2* head) {
     prefix(head->right);
     
 }
+
+// infix recursive print from tree
 void infix(Node2* head) {
     if(head == NULL) return;
     infix(head->left);
@@ -256,7 +276,11 @@ int main()
     Node* stack = NULL;
     Node* queue = NULL;
     
+    
+    
+    //main method contains input logic, you gan test some of the function yourself to test if they work. 
     while (true) {
+    cout << "type 'INPUT' to input" << endl;
     char inputString[20];
     cin.get(inputString, 20);
     if(strcmp(inputString, "push") == 0) {
@@ -282,8 +306,10 @@ int main()
     if(strcmp(inputString, "enqueue") == 0) {
         int inputValue;
         cin >> inputValue;
+        int sizeinput;
+        cin >> sizeinput;
         cin.get();
-        enqueue(queue, inputValue);
+        enqueue(queue, inputValue, sizeinput);
         print(queue);
     }
     if(strcmp(inputString, "dequeue") == 0) {
@@ -291,20 +317,22 @@ int main()
         dequeue(queue);
         print(queue);
     }
-    if(strcmp(inputString, "INFIX") == 0) {
+    if(strcmp(inputString, "INPUT") == 0) {
        vector<char> OUTPUT = INFIX();
        Node2* TREE = buildTree(OUTPUT);
        char inputString[10];
+       cout << "choose if you want the function in infix, prefix or postfix" << endl; 
        cin >> inputString; 
        if(strcmp(inputString, "infix") == 0) {
+           cin.get();
            infix(TREE);
            cout << endl;
        }
-       else if(strcmp(inputString, "prefix") == 0) {
+       if(strcmp(inputString, "prefix") == 0) {
            prefix(TREE);
            cout << endl;
        }
-       else if(strcmp(inputString, "postfix") == 0) {
+       if(strcmp(inputString, "postfix") == 0) {
            postfix(TREE);
            cout << endl;
        }
@@ -314,4 +342,6 @@ int main()
     }
     
     }
+    
+
 }
