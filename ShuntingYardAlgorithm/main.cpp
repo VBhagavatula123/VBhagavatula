@@ -112,7 +112,7 @@ char peek(Node * head) {
     return c;
 }
 
-//queue functions that I don't use.
+//queue functions that I don't use. were initally used for testing.
 int getLength(Node * head) {
     int counter = 0;
     Node*current  = head;
@@ -329,16 +329,21 @@ int main()
            cout << endl;
        }
        if(strcmp(inputString, "prefix") == 0) {
+           cin.get();
            prefix(TREE);
            cout << endl;
        }
        if(strcmp(inputString, "postfix") == 0) {
+           cin.get();
            postfix(TREE);
            cout << endl;
        }
     }
     if(strcmp(inputString, "length") == 0) {
         cout << getLength(stack);
+    }
+    if(strcmp(inputString, "quit") == 0) {
+        return 0;
     }
     
     }
