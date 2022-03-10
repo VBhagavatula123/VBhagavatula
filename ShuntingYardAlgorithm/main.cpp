@@ -1,7 +1,6 @@
 //Shuntin Yard Algorithm by Vivek Bhagavatula 3/3/2022 
 //project takes in an infix input prints out postfix output using a stack
 //that output is loaded into a binary expression tree which can recursivley print prefix infix or posfix on demand.
-//link to source code: https://onlinegdb.com/T7G-gCZhy
 
 #include <iostream>
 #include <cstring>
@@ -166,7 +165,7 @@ int prec(char c) {
     if(c == '^') {
         return 3;
     }
-    else if(c == '/' || c=='*') {
+    else if(c == '/' || c =='*') {
         return 2;
     }
     else if(c == '+' || c == '-'){
@@ -185,21 +184,41 @@ vector<char> INFIX() {
     char infix[l];
     vector<char> output;
     vector<char> discard;
+    int c = 0;
     cout << "enter your expression" << endl;
     for(int i = 0; i < l; i++) {
         cin >> infix[i];
     }
-    
+    //put it through a filter for expressions enetered with implicit parenthsee multiplication ")("
+    for(int i = 0; i < l-1; i++) {
+        if(infix[i] == ')' && infix[i+1] == '(') {
+            c++;
+        }
+    }
+    char a2[c+l];
+    int j = 0;
     for(int i = 0; i < l; i++) {
-            if (infix[i] >= '0' && infix[i] <= '9') {
-                output.push_back(infix[i]);
+        if(infix[i] == ')' && infix[i+1] == '(') {
+            a2[j] = ')';
+            a2[j+1] = '*';
+            j = j+2;
+        }
+        else  {
+            a2[j] = infix[i];
+            j++;
+        }
+    }
+   
+    for(int i = 0; i < c+l; i++) {
+            if (a2[i] >= '0' && a2[i] <= '9') {
+                output.push_back(a2[i]);
             }
     
-            else if(infix[i] == '(') {
-                push(stack, infix[i]);
+            else if(a2[i] == '(') {
+                push(stack, a2[i]);
             }
             
-            else if(infix[i] == ')') {
+            else if(a2[i] == ')') {
                 while(peek(stack) != '(') {
                     output.push_back(pop(stack));
                 }
@@ -207,17 +226,17 @@ vector<char> INFIX() {
             }
             
             else {
-                while(stack != NULL && prec(infix[i]) <= prec(peek(stack))) {
+                while(stack != NULL && prec(a2[i]) <= prec(peek(stack))) {
                     output.push_back(pop(stack));
                 }
-                push(stack, infix[i]);
+                push(stack, a2[i]);
             }
         }
         while(stack != NULL) {
             output.push_back(pop(stack));
         }
     
-    for(int i = 0; i < l; i++) {
+    for(int i = 0; i < c+l; i++) {
         cout << output[i];
     }
     
@@ -276,9 +295,7 @@ int main()
 {
     Node* stack = NULL;
     Node* queue = NULL;
-    
-    
-    
+
     //main method contains input logic, you gan test some of the function yourself to test if they work. 
     while (true) {
     cout << "type 'INPUT' to input" << endl;
