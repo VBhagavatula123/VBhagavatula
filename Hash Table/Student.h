@@ -17,5 +17,4 @@ public:
   void getStudentInfo ();
     Student (char *first, char *last, int ID, float GPA);
    ~Student ();
-   Student** getTable();
 };
