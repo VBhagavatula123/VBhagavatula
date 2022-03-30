@@ -91,7 +91,7 @@ void DELETE(Student** &a, int size) {// delete a student at a particular index
 void print2(Student** b, int size) {// printing function
     for(int i = 0; i < size; i++) {
         Student* current = b[i];
-        cout << i+1 << ":   ";
+        cout << i << ":   ";
         while(current != NULL) {
             cout << current->s_firstName << " " << current->s_lastName << " " << current->s_id << " " << current-> s_GPA << "      ";
             current = current -> next;
@@ -197,7 +197,7 @@ int main()
     
    
     
-    int id = 1; // id variable you pass into functions by reference.
+    int id = 0; // id variable you pass into functions by reference.
     while(true) {
         
         
