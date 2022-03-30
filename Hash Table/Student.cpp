@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Student.h"
-
+// this file has the functionality for the student class
 using namespace std;
 
 Student::Student(char* first, char* last, int ID, float GPA){
@@ -14,11 +14,3 @@ Student::~Student() {
     
 }
 
-Student** Student::getTable() {
-    int size = 100;
-    Student* table[size];
-    for(int i = 0; i < size; i++) {
-        table[i] = NULL;
-    }
-    return table;
-}
