@@ -13,6 +13,10 @@
 
 using namespace std;
 
+struct Node {
+    int val;
+    Node* next;
+};
 //my original sorting algorithm that doesn't work unfortuanely.
 
 /*void Heapsort(int *a, int input) {
@@ -52,6 +56,30 @@ using namespace std;
     cout << endl;
 }*/
 
+void push(Node * &head, int inputValue) {
+Node* insert = new Node();
+insert->val = inputValue;
+if(head == NULL) {
+  head = insert;
+}
+
+else if(head != NULL) {
+    Node* current = head;
+    while(current->next != NULL) {
+        current = current->next;
+    }
+    current->next = insert;
+    insert->next = NULL;
+ }
+}
+
+void print(Node * head) {
+  while (head != NULL) {
+    cout << head->val << " ";
+    head = head->next;
+  }
+  cout << endl;
+}
 
 
 
@@ -88,14 +116,14 @@ void sort(int *arr, int root)
 
 void print(int *heap, int root, int space) {
     
-    int right = root*2+1;// get right and left chilren
+    int right = root*2+1; // get right and left chilren
     int left = root*2+2;
     
     if(heap[root] == -1){
     return;
   }
   
-  space+=5;// add 5 more space everytime you run the function
+  space+=5; // add 5 more space everytime you run the function
 
   print(heap, right, space);// run the function
 
@@ -154,7 +182,7 @@ void manualAdd(int* heap, int &length, int size) {
     print(heap, 0, 0);
 }
 
-void deletenum(int* heap, int length, int size) {
+int deletenum(int* heap, int length, int size, int &count, Node* output) {
     int choice;
     cout << "enter a number to delete won't work if there is multiple of a number." << endl; // enter a choice to delete
     cin >> choice;
@@ -163,8 +191,11 @@ void deletenum(int* heap, int length, int size) {
             heap[i] = -1; // set the choice to 0 or NULL;
         }
     }
+    length--;
     sort(heap, size);
     print(heap, 0, 0);
+    
+    return choice;
 }
 
 
@@ -207,6 +238,7 @@ void deletenum(int* heap, int length, int size) {
 
 int main()
 {
+    Node* output = NULL;
     srand(time(NULL));// set a random seed
     int size = 100; //set the size
     int* heap = new int[size];
@@ -240,7 +272,10 @@ int main()
        }
        if(strcmp(inputString, "delete") == 0) {// delete commands
            cin.get();
-           deletenum(heap, length, size);
+           int count = 0;
+           push(output, deletenum(heap, length, size, count, output));
+           cout << "OUTPUT: ";
+           print(output);
            cin.get();
        }
        if(strcmp(inputString, "PRINT") == 0) {// test print command to print out the heap in array notaiton.
