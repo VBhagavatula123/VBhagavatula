@@ -1,38 +1,6 @@
-#include <iostream>
-#include <cstring>
-
-using namespace std;
-
-struct node {// node defenition with 2 children
-  int val;
-  node* right;
-  node* left;
-};
-
-void print(node* tree, int tabs) {
-    
-    if(tree == NULL){// if the tree is empty there's nothing to print
-        return;
-    }
-      tabs++;
-
-      print(tree->right, tabs);// go as far out right
-      cout << endl;
-      for(int i = 1; i < tabs; i++){
-        cout << '\t';
-      }
-      cout << tree->val << "\n";
-      print(tree->left, tabs); //then do the left
-      
-}
-
-void insert(node* &tree, int VAL) {// insertion methog
-    if(tree ==  NULL) {// if it's NULL make the tree the new node with the value
-        node* NEW = new node();
-        NEW->val = VAL;
         tree = NEW;
         return;
-        
+
     }
     else if(VAL > tree->val) {// if it's greater pass the right child
         if(tree->right != NULL) {
@@ -82,7 +50,7 @@ void DELETE(node* &tree, int VAL) {// deletion method
     }
     else if(VAL == tree->val) {// if you have reached the value wished to be deleted
         if(tree->left == NULL && tree->right == NULL) {// if both children are null
-            tree = NULL;// delete it 
+            tree = NULL;// delete it
             return;
         }
         else if(tree->left == NULL && tree->right != NULL) {// if the left child is NULL
@@ -132,7 +100,7 @@ void search(node* tree, int VAL) {
     }
     else if(VAL > tree->val) {// if the number is greater, pass the right child
         if(tree->right != NULL) {
-            DELETE(tree->right, VAL);
+            search(tree->right, VAL);
         }
         else  {// if it's NULL, it doesn't exist
           cout << "that number is not in the tree" << endl;
@@ -141,7 +109,7 @@ void search(node* tree, int VAL) {
     }
     else if(VAL < tree->val) {// if the number is smaller, pass the left child
         if(tree->left != NULL) {
-            DELETE(tree->left, VAL);
+            search(tree->left, VAL);
         }
         else  {// if it's NULL, it doesn't exist.
             cout << "that number is not in the tree" << endl;
