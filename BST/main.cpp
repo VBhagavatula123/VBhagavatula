@@ -1,3 +1,35 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+struct node {// node defenition with 2 children
+  int val;
+  node* right;
+  node* left;
+};
+
+void print(node* tree, int tabs) {
+
+    if(tree == NULL){// if the tree is empty there's nothing to print
+        return;
+    }
+      tabs++;
+
+      print(tree->right, tabs);// go as far out right
+      cout << endl;
+      for(int i = 1; i < tabs; i++){
+        cout << '\t';
+      }
+      cout << tree->val << "\n";
+      print(tree->left, tabs); //then do the left
+
+}
+
+void insert(node* &tree, int VAL) {// insertion methog
+    if(tree ==  NULL) {// if it's NULL make the tree the new node with the value
+        node* NEW = new node();
+        NEW->val = VAL;
         tree = NEW;
         return;
 
