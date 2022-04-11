@@ -9,12 +9,30 @@ struct node {
   node* left;
 };
 
+void print(node* tree, int tabs) {
+    
+    if(tree == NULL){
+        return;
+    }
+      tabs++;
+
+      print(tree->right, tabs);
+      cout << endl;
+      for(int i = 1; i < tabs; i++){
+        cout << '\t';
+      }
+      cout << tree->val << "\n";
+      print(tree->left, tabs);
+      
+}
+
 void insert(node* &tree, int VAL) {
     if(tree ==  NULL) {
         node* NEW = new node();
         NEW->val = VAL;
         tree = NEW;
         return;
+        
     }
     else if(VAL > tree->val) {
         if(tree->right != NULL) {
@@ -44,7 +62,8 @@ int nextLargest(node* &tree) {
     if(tree->left == NULL) {
         int a = tree->val;
         if(tree->right != NULL) {
-            tree->left = tree->right;
+            node* NEW = tree->right;
+            tree = NEW;
         }
         else {
             tree = NULL;
@@ -102,20 +121,36 @@ void DELETE(node* &tree, int VAL) {
     }
 }
 
-void print(node* tree, int tabs) {
-    if(tree == NULL){
+void search(node* tree, int VAL) {
+    if(tree == NULL) {
+        cout << "tree is empty" << endl;
         return;
     }
-      tabs += 1;
-
-      print(tree->right, tabs);
-      cout << endl;
-      for(int i = 1; i < tabs; i++){
-        cout << '\t';
-      }
-      cout << tree->val << "\n";
-      print(tree->left, tabs);
+    else if(tree->val == VAL) {
+        cout << "yes, this number is in the tree" << endl;
+        return;
+    }
+    else if(VAL > tree->val) {
+        if(tree->right != NULL) {
+            DELETE(tree->right, VAL);
+        }
+        else  {
+          cout << "that number is not in the tree" << endl;
+            return;
+        }
+    }
+    else if(VAL < tree->val) {
+        if(tree->left != NULL) {
+            DELETE(tree->left, VAL);
+        }
+        else  {
+            cout << "that number is not in the tree" << endl;
+            return;
+        }
+    }
 }
+
+
 
 
 int main() {
@@ -130,25 +165,40 @@ int main() {
       int input;
       cin >> input;
       insert(tree, input);
+      print(tree, 0);
       cin.get();
       cout << endl;
     }
-    if(strcmp(inputString, "delete") == 0) {
+    else if(strcmp(inputString, "delete") == 0) {
       cin.get();
         int input;
         cin >> input;
         DELETE(tree, input);
-        cin.get();
-        cout << endl;
-    }
-    if(strcmp(inputString, "print") == 0) {
         print(tree, 0);
         cin.get();
         cout << endl;
     }
-    if(strcmp(inputString, "quit") == 0) {
-      exit(0);
+    else if(strcmp(inputString, "print") == 0) {
+        print(tree, 0);
+        cin.get();
+        cout << endl;
+    }
+    else if(strcmp(inputString, "quit") == 0) {
+        exit(0);
+    }
+    else if(strcmp(inputString, "search") == 0) {
+        int input;
+        cin >> input;
+        search(tree, input);
+        cin.get();
+        cout << endl;
+    }
+    else {
+        cout << "please type a real command" << endl;
+        cin.get();
     }
 
   }
+
+
 }
