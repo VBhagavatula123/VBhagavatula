@@ -113,7 +113,7 @@ void rotate(node* &tree, node* &t) {// rotation function for figuring out the ro
                 tree->parent->left->color = 'R';
             }
             return;
-	}
+        }
         tree->color = 'B';
         tree->right->color = 'R';
         tree->left->color = 'R';
