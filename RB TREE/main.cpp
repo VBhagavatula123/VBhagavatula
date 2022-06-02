@@ -2,11 +2,16 @@
 #include <cstring>
 #include <fstream>
 
-/* RBT insertion by vivek bhagavatula 5/11/22
+/* RBT insertion by vivek bhagavatula 5/11/22 Deletion, June 2nd
+
+sources: https://www.geeksforgeeks.org/red-black-tree-set-3-delete-2/
+https://medium.com/analytics-vidhya/deletion-in-red-black-rb-tree-92301e1474ea
 
 program that takes file and user input to sort a tree for very efficient worst case traversal*/
 
 using namespace std;
+
+
 
 struct node {
     int val;
@@ -14,11 +19,24 @@ struct node {
     node* right;
     node* left;
     node* parent;
+    int tag = 0;
 };// RBT node struct including parent pointers and value as well as color
 
 
-
+void DB(node *&head, node *&n);
 void rebalance(node* &NODE, node*&head);
+void DELETE(node* &tree, node* root);
+void R(node* &t, node* &n);
+void L(node* &t, node* &n);
+int height(node* NODE, int key, int level);
+void rotate(node* &tree, node* &t);
+void print(node* tree, int tabs);
+void insert(node*& head, node*& NODE, node*& Parent, int VAL);
+void rebalance(node*& NODE, node* &head);
+node* nextLargest(node* &tree, node* root);
+int FileAdd(int target);
+void DB2 (node* &DBnode, node* root);
+void search(node* tree, int VAL);
 
 void R(node* &t, node* &n) {// right rotation
     node* temp = n->left;// place a temp variable for the rotation
@@ -246,6 +264,359 @@ void rebalance(node*& NODE, node* &head){ //balancing function geeks for geeks
     head->color = 'B';
 }// function to rebalance the tree after insertion
 
+node* nextLargest(node* &tree, node* root) {// find the next largest element in the array whilst modifying the tree
+    if(tree->left == NULL) {// if the left is finally null
+        return tree;// return the value
+    }
+    if(tree->left != NULL) {// if there is a left child, pass it.
+        nextLargest(tree->left, root);
+    }
+}
+
+node* getSibling(node *& node)
+{ // gets node's parent's other child
+  if(node->parent == NULL) return NULL;
+  return (node == node->parent->left) ? node->parent->right : node->parent->left;
+}
+
+// geeks for geeks ideas.
+
+node *replace(node* tree, node* root) {// grab to see who is going to replace the node you delete.
+    // when node have 2 children
+    if (tree->left != NULL and tree->right != NULL)
+      return nextLargest(tree->right, root);
+ 
+    // when leaf
+    if (tree->left == NULL && tree->right == NULL)
+      return NULL;
+ 
+    // when single child
+    if (tree->left != NULL)
+      return tree->left;
+    else
+      return tree->right;
+  }
+
+void DELETE(node* &tree, node* root) {
+    
+    node* replacement = replace(tree, root);
+    node* parent = tree->parent;
+  if(replacement == NULL) {
+    if (tree == root) {
+      root = NULL;
+    }
+    else
+    {
+      if ((replacement == NULL || replacement->color == 'B') && (tree == NULL || tree->color == 'B')) {
+        DB(root, tree);
+      } else {
+        if (getSibling(tree) != NULL) {
+          getSibling(tree)->color = 'R';
+        }
+      }
+      // remove from tree
+      if (tree == parent->left) {
+        parent->left = NULL;
+      }
+      else {
+        parent->right = NULL;
+      }
+    }
+    tree = NULL;
+    return;
+  }
+
+  
+  if(tree->left == NULL || tree->right == NULL) {// left or right = NULL, one doesn't equal NULL
+    if (tree == root) {// if it's the root replace it
+      
+      tree->val = replacement->val;
+      tree->left = NULL;
+      tree->right = NULL;
+    } else { // else if it is an internal node
+      node* p = tree->parent;
+      if (tree == p->left) {
+        p->left = replacement;
+      } else {
+        parent->right = replacement;
+      }
+      replacement->parent = parent;
+      if ((replacement == NULL || replacement->color == 'B') && (tree == NULL || tree->color == 'B')) {//if a double black conflict then oyu must fix.
+        DB(root, tree);
+      }
+      else {
+        replacement->color = 'B';
+      }
+    }
+    return;
+  }
+
+  // 2 children
+  // swap 
+  int t = replacement->val;
+  tree->val = replacement->val;
+  replacement->val = t;
+
+  DELETE(replacement, root);// re run with replacement as the node. 
+    
+    
+}
+
+bool isRedChild(node *&node)
+{ // determines if node's chlid is red
+  if ((node->left != NULL && node->left->color == 'R') || (node->right != NULL && node->right->color == 'R'))
+  {
+    return true;
+  }
+  return false;
+}
+
+node* GetP(node* DBnode) {
+    return DBnode->parent;
+}
+
+node* GetS(node* DBpar, node* DBnode) {
+    if(DBnode == DBpar->right) {
+        return DBpar->left;
+    } else {
+        return DBpar->right;
+    }
+}
+
+node* GetSN(node* DBsib, node* DBpar) {
+    if(DBsib == DBpar->right) {
+        return DBsib->left;
+    } else  {
+        return DBsib->right;
+    }
+}
+
+node* GetSF(node* DBsib, node* DBpar) {
+    if(DBsib == DBpar->right) {
+        return DBsib->right;
+    } else  {
+        return DBsib->left;
+    }
+}
+
+void search(node* tree, int VAL) {
+    if(tree == NULL) {
+        cout << "tree is empty" << endl;
+        return;
+    }
+    else if(tree->val == VAL) {//when you reach the number, it exits
+        cout << "yes, this number is in the tree" << endl;
+        return;
+    }
+    else if(VAL > tree->val) {// if the number is greater, pass the right child
+        if(tree->right != NULL) {
+            search(tree->right, VAL);
+        }
+        else  {// if it's NULL, it doesn't exist
+          cout << "that number is not in the tree" << endl;
+            return;
+        }
+    }
+    else if(VAL < tree->val) {// if the number is smaller, pass the left child
+        if(tree->left != NULL) {
+            search(tree->left, VAL);
+        }
+        else  {// if it's NULL, it doesn't exist.
+            cout << "that number is not in the tree" << endl;
+            return;
+        }
+    }
+}
+
+
+void DB(node *&root, node *&NODE)
+{ // fixes black black
+  if (NODE == root)
+    return;
+
+  node *sibling = getSibling(NODE);
+  node *parent = NODE->parent;
+
+  if (sibling == NULL)
+  {
+    DB(root, parent);
+  }
+  else
+  {
+    if (sibling->color == 'R')
+    { // if red sibling
+      parent->color = 'R';
+      sibling->color = 'B';
+      if (sibling == parent->left)
+      {
+        R(root, parent);
+      }
+      else
+      {
+        L(root, parent);
+      }
+      DB(root, NODE);
+    }
+    else
+    {
+      if (isRedChild(sibling))
+      { // if black sibling
+        if (sibling->left != NULL && sibling->left->color == 'R')
+        { //more than 1 left child. 
+          if (sibling == parent->left)
+          {
+             if(sibling->tag != 0) {
+                DB2(root, root);
+            }
+            sibling->left->color = sibling->color;
+            sibling->color = parent->color;
+            // right rotation about the parent;
+            R(root, parent);
+          }
+          else
+          {
+            sibling->left->color = parent->color;
+            //right rotation about the sibling
+            R(root, sibling);
+            //left rotation about the parent
+            L(root, parent);
+          }
+        }
+        else
+        {
+          // sibling right chlid is red
+          if (sibling == parent->left)
+          {
+            sibling->right->color = parent->color;
+            L(root, sibling);
+            //left rotation about the sibling
+            R(root, parent);
+            //right rotation about the parent
+          }
+          else
+          {
+            sibling->right->color = sibling->color;
+            sibling->color = parent->color;
+            L(root, parent);
+            //left rotation about the parent;
+          }
+        }
+        parent->color = 'B';
+      }
+      else
+      {
+        // both children are black
+        sibling->color = 'R';
+        if (parent->color == 'B')
+        {
+          DB(root, parent); 
+        }
+        else
+        {
+            if(sibling->tag != 0) {
+                DB2(root, root);
+            }
+          parent->color = 'B';
+        }
+      }
+    }
+  }
+}
+void DB2 (node* &DBnode, node* root) {// Double black fixer
+    
+    if(DBnode == root) {
+        return;
+    }
+
+    node* DBpar = GetP(DBnode);// parent pointer
+    node* DBsib = GetS(DBpar, DBnode);//sibling pointer
+    node* DBsibN = GetSN(DBsib, DBpar);// near sibling child
+    node* DBsibF = GetSF(DBsib, DBpar);// far sibling child.
+
+    
+    
+    if(DBnode == root) {//case 2 -> root node becomes black 
+        if(DBnode->tag == 1) {
+            DBnode = NULL;
+        }
+        return;
+    }
+    else if((DBpar->color== 'B' && DBsib->color == 'B' && (DBsibN == NULL && DBsibF == NULL))  || ((DBpar->color == 'B' && DBsibF->color == 'B' && DBsibN->color == 'B' && DBsibF->color == 'B') == 'B')) {//case 3
+        // Sibling and Sibling's Children are black. 
+        DBsib->color = 'R';
+        
+        if(DBnode->tag == 1) {
+            DBnode = NULL;
+        }
+        
+        if(DBpar->color == 'B') {
+            DB(DBpar, root);
+
+        } else  {
+            DBpar->color == 'B';
+            return;
+        }
+    }
+    else if(DBsib->color == 'R') {//case 4 -> Siblings are red.
+        char temp = DBpar->color;// swap
+        DBpar->color = DBsib->color;
+        DBsib->color = temp;
+        if(DBpar->right == DBnode) {// rotaions.
+            R(root, DBpar);
+        }
+        else {
+            L(root, DBpar);
+        }
+        DB(DBnode, root);
+    }
+    else if(DBsib->color == 'B' && DBsibN->color == 'R' && (DBsibF == NULL|| DBsibF->color == 'B')) {//case 5
+        // sibling is black, sibling far child is black, singling near child is red.
+        char temp = DBsibN->color;
+        DBsibN->color = DBsib->color;
+        DBsib->color = temp;// swap
+        
+        if(DBpar->left == DBnode) {//rotaions
+            R(root, DBsib);
+        } else  {
+            L(root, DBsib);
+        }
+        
+        char temp2 = DBpar->color;
+        DBpar->color = DBsib->color;
+        DBsib->color = temp2;// swap
+        if(DBpar->right == DBnode) {// roations
+            R(root, DBpar);
+        }
+        else {
+            L(root, DBpar);
+        }
+        
+        DBsibF->color = 'B';
+        if(DBnode->tag == 1) {
+            DBnode = NULL;
+        }
+        return;
+    }
+    else if(DBsib->color == 'B' && DBsibF->color == 'R') {//case 6
+        //sibling is black, sibling far shild is red.
+        char temp = DBpar->color;
+        DBpar->color = DBsib->color;
+        DBsib->color = temp;//swap
+        if(DBpar->right == DBnode) {//rotaions
+            R(root, DBpar);
+        }
+        else {
+            L(root, DBpar);
+        }
+        
+        DBsibF->color = 'B';
+        if(DBnode->tag == 1) {
+            DBnode = NULL;
+        }
+        return;
+    }
+}
+
 int FileAdd(int target) {// gets a  VAL
     ifstream numbers;
     numbers.open("num.txt");
@@ -268,7 +639,7 @@ int main()
     int target = 1;
     while(true) {
         char inputString;
-        cout << "R to read, A to Add, P to print, Q to quit" << endl;
+        cout << "R to read, A to Add, P to print, Q to quit, S to search, D to delete" << endl;
         cin >> inputString;
         
         if(inputString == 'R') {// FILE command
@@ -292,7 +663,28 @@ int main()
             print(HEAD,0);
         }
         else if(inputString == 'S') {
-            
+            cout << "pick a number to search" << endl;
+            int VAL;
+            cin >> VAL;
+            search(HEAD, VAL);
+        }
+        else if(inputString == 'D') {
+            cout << "choose a number to delete" << endl;
+            int VAL;
+            cin >> VAL;
+          node* TEMP = HEAD;
+          while (TEMP->val != VAL)
+          { // find the right node
+            if (VAL < TEMP->val){
+              TEMP = TEMP->left;
+            }
+            else if (VAL > TEMP->val){
+              TEMP = TEMP->right;
+            }
+          }
+          //get the node and pass it
+            DELETE(TEMP, HEAD);
+            print(HEAD, 0);
         }
         else if(inputString == 'Q') {
             exit(0);
@@ -301,12 +693,3 @@ int main()
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
