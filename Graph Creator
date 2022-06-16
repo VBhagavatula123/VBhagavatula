@@ -12,7 +12,7 @@ void DV(map<string, int> vertecies);
 void AV(map<string, int> vertecies);
 void DE(int Matrix[20][20], map<string, int> vertecies);
 void print(int Matrix[20][20]);
-void dijkstra(string vertex, int Matrix[20][20], map<string, int> &count, map<string, vector<string>> Pairs, vector<string> &visted, vector<string> &unvisted, map<string, int> vertecies);
+void dijkstra(string vertex, int Matrix[20][20], map<string, int> &count, map<string, vector<string>> Pairs, vector<string> &visted, vector<string> &unvisted, map<string, int> vertecies, map<string, int> &paths);
 
 int main()
 {
@@ -105,14 +105,18 @@ int main()
             cin >> vertex;
             
             map<string, int> count;
+            map<string, int> paths;
+            for(int i = 0; i < keys.size(); i++) {
+                paths[keys[i]] = 100000;
+            }
             
             vector<string> visited;
             vector<string> unvisited;
             for (auto const &p: vertecies) {
                 unvisited.push_back(p.first);
             }
-            dijkstra(vertex, Matrix, count, Pairs, visited, unvisited, vertecies);
-            for (auto const &p: count) {
+            dijkstra(vertex, Matrix, count, Pairs, visited, unvisited, vertecies, paths);
+            for (auto const &p: paths) {
                 cout << (p.first) << ":" << (p.second) << endl;
             }
             
@@ -136,11 +140,14 @@ int main()
     return 0;
 }
 
-void dijkstra(string vertex, int Matrix[20][20], map<string, int> &count, map<string, vector<string>> Pairs, vector<string> &visited, vector<string> &unvisited, map<string, int> vertecies) {
+void dijkstra(string vertex, int Matrix[20][20], map<string, int> &count, map<string, vector<string>> Pairs, vector<string> &visited, vector<string> &unvisited, map<string, int> vertecies, map<string, int> &paths) {
         
         for(int i = 0; i < Pairs[vertex].size(); i++) {
             count[Pairs[vertex][i]] += Matrix[vertecies[vertex]][vertecies[Pairs[vertex][i]]];
-            
+            cout << count[Pairs[vertex][i]] << endl;
+            if(count[Pairs[vertex][i]] < paths[Pairs[vertex][i]]) {
+                paths[Pairs[vertex][i]] =  count[Pairs[vertex][i]];
+            }
         }
         
         for(int i = 0; i < unvisited.size(); i++) {
@@ -156,7 +163,7 @@ void dijkstra(string vertex, int Matrix[20][20], map<string, int> &count, map<st
             string s = unvisited[i];
             for(int j = 0; j < Pairs[vertex].size(); j++) {
                 if(Pairs[vertex][j] == unvisited[i]) {
-                    dijkstra(Pairs[vertex][j], Matrix, count, Pairs, visited, unvisited, vertecies);
+                    dijkstra(Pairs[vertex][j], Matrix, count, Pairs, visited, unvisited, vertecies, paths);
                 }
             }
         }
