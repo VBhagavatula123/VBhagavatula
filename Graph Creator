@@ -1,0 +1,165 @@
+
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <map>
+#include <vector>
+
+using namespace std;
+
+void AE(int Matrix[20][20], map<string, int> vertecies);
+void DV(map<string, int> vertecies);
+void AV(map<string, int> vertecies);
+void DE(int Matrix[20][20], map<string, int> vertecies);
+void print(int Matrix[20][20]);
+void dijkstra(string vertex, int Matrix[20][20], map<string, int> &count, map<string, vector<string>> Pairs, vector<string> &visted, vector<string> &unvisted, map<string, int> vertecies);
+
+int main()
+{
+    
+    int Matrix[20][20];
+    for(int i = 0; i < 20; i++) {
+        for(int j = 0; j < 20; j++) {
+            Matrix[i][j] = 0;
+        }
+    }
+    map<string, int> vertecies;
+    map<string, vector<string>> Pairs;
+    vector<string> keys;
+    
+    while(true) {
+        cout << "pick a command" << endl;
+        char input[10];
+        cin.get(input, 10);
+        if(strcmp(input, "AE") ==  0) {
+            cout << "select the vertecies  you want to add the dege between" << endl;
+            string s;
+            string g;
+            cin >> s;
+            cin >> g;
+            if(vertecies[s] != 0 && vertecies[g] != 0) {
+                int weight;
+                cout << "select a weight" << endl;
+                cin >> weight;
+                Matrix[vertecies[s]][vertecies[g]] =  weight; 
+                Matrix[vertecies[g]][vertecies[s]] =  weight;
+                Pairs[s].push_back(g);
+                Pairs[g].push_back(s);
+            }
+            else {
+                cout  << "you need 2 existing vertiecies to create an edge" << endl;
+            }
+            cin.get();
+        }
+        else if(strcmp(input, "AV") ==  0) {
+            string s;
+                cin >> s;
+                keys.push_back(s);
+                if(vertecies[s] == 0) {
+                    vertecies[s] = vertecies.size();
+                    cout << vertecies[s] << endl;
+                    // we are creating a 3rd object vertecies to track the number a vertecy corresponds to
+                    // when we add vertecies  we technically arne't entering anything into the array because the array only stores the edge data.
+                }
+                else  {
+                    cout << "that vertext already exists" << endl;
+                }
+            cin.get();
+        }
+        else if(strcmp(input, "DE") ==  0) {
+            string s;
+            string g;
+            cout << "select an edge to delete" << endl;
+            cin >> s;
+            cin >> g;
+            if(vertecies[g] > 0 && vertecies[s] > 0) {
+                Matrix[vertecies[g]][vertecies[s]] = 0; // no edge now haha
+                Matrix[vertecies[s]][vertecies[g]] = 0;
+            }
+            cin.get();
+        }
+        else if(strcmp(input, "DV") == 0) {
+            string s;
+            cin >> s;
+            int a = vertecies[s];
+            if(vertecies[s] > 0) {// check if the vertecy has been created in the firt place
+                vertecies.erase(s); //just completely remove it from the map;
+            }
+            //shift Matrix
+            for(int i = 0; i < 21; i++) {
+                Matrix[i][vertecies[s]] = 0;
+                Matrix[vertecies[s]][i] = 0;
+            }
+            //shift vertex counts occuring after deleted vertex back
+            
+            for(int i = 0; i < vertecies.size(); i++) {
+               if(vertecies[keys[i]] > a) {
+                   vertecies[keys[i]]--;
+               }
+            }
+            cin.get();
+        }
+        else if(strcmp(input, "SP") == 0) {
+            cout << "enter the vertex that you would like to find the shortest paths for" << endl;
+            string vertex;
+            cin >> vertex;
+            
+            map<string, int> count;
+            
+            vector<string> visited;
+            vector<string> unvisited;
+            for (auto const &p: vertecies) {
+                unvisited.push_back(p.first);
+            }
+            dijkstra(vertex, Matrix, count, Pairs, visited, unvisited, vertecies);
+            for (auto const &p: count) {
+                cout << (p.first) << ":" << (p.second) << endl;
+            }
+            
+            
+            cin.get();
+        }
+        else if(strcmp(input, "PRINT") == 0) {
+            //print(Matrix);
+            for(int i = 0; i < 20; i++) {
+                for(int j = 0; j < 20; j++) {
+                    cout << Matrix[i][j] << " ";
+                }
+                cout << endl;
+            }
+            cout << "you have " << vertecies.size() << " vertecies stored" << endl;
+            cin.get();
+        }
+         
+    }
+    
+    return 0;
+}
+
+void dijkstra(string vertex, int Matrix[20][20], map<string, int> &count, map<string, vector<string>> Pairs, vector<string> &visited, vector<string> &unvisited, map<string, int> vertecies) {
+        
+        for(int i = 0; i < Pairs[vertex].size(); i++) {
+            count[Pairs[vertex][i]] += Matrix[vertecies[vertex]][vertecies[Pairs[vertex][i]]];
+            
+        }
+        
+        for(int i = 0; i < unvisited.size(); i++) {
+            if(unvisited[i] == vertex) {
+                unvisited[i] = -1;
+            }
+        }
+        visited.push_back(vertex);
+        if(visited.size() ==  vertecies.size()) {
+            return;
+        }
+        for(int i = 0; i < unvisited.size(); i++) {
+            string s = unvisited[i];
+            for(int j = 0; j < Pairs[vertex].size(); j++) {
+                if(Pairs[vertex][j] == unvisited[i]) {
+                    dijkstra(Pairs[vertex][j], Matrix, count, Pairs, visited, unvisited, vertecies);
+                }
+            }
+        }
+}
+
+
